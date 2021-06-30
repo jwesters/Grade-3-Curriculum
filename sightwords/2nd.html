@@ -1,0 +1,208 @@
+
+<html>
+<head><title>2nd Grade Dolch Sight Words - Alphabetical Order</title>
+<script src="jquery-3.2.1.js"></script>
+<script type="text/javascript">
+word_index = 0;
+
+
+pre_primer = [
+    "always",
+    "around",
+    "because",
+    "been",
+    "before",
+    "best",
+    "both",
+    "buy",
+    "call",
+    "cold",
+    "does",
+    "don't",
+    "fast",
+    "first",
+    "five",
+    "found",
+    "gave",
+    "goes",
+    "green",
+    "its",
+    "made",
+    "many",
+    "off",
+    "or",
+    "pull",
+    "read",
+    "right",
+    "sing",
+    "sit",
+    "sleep",
+    "tell",
+    "their",
+    "these",
+    "those",
+    "upon",
+    "us",
+    "use",
+    "very",
+    "wash",
+    "which",
+    "why",
+    "wish",
+    "work",
+    "would",
+    "write",
+    "your",
+];
+
+
+word_list = [];
+function start_words() {
+    var read_write = $("#read_write")[0].value;
+    var raw_words = [];
+    raw_words = pre_primer;
+
+    var str_num_words = pre_primer.length; 
+
+    var num_words = parseInt(str_num_words);
+
+    var all_word_list = raw_words.map(function(w) {
+        return {word: w, rank: Math.random()};
+    });
+
+
+    word_list = all_word_list.slice(0, num_words);
+
+    var first_word = word_list[word_index].word;
+    document.getElementById("word").innerHTML = first_word;
+
+
+    $(".init_show").hide();
+ {
+        $(".reading").show();
+        // set up space key handler
+        $(window).keypress(function(e) {
+            if (e.keyCode === 0 || e.keyCode === 0x20) {
+                e.preventDefault();
+                next_word();
+            }
+        });
+    } 
+
+}
+function next_word() {
+    ++word_index;
+    if (word_index < word_list.length) {
+        var next_word = word_list[word_index].word;
+        document.getElementById("word").innerHTML = next_word;
+        $("#typespace")[0].value = "";
+    } else {
+
+        document.getElementById("ready").innerHTML =
+            "<p>All done 2nd Grade words</p>";
+        $(".init_hide").hide();
+        $("#ready").show();
+        $(window).off("keypress", "", next_word);
+    }
+}
+
+$(function() {
+    $("#typespace").val("");
+    $("#typespace").keyup(function(e) {
+        var typespace = $(e.currentTarget)[0];
+        var newval = typespace.value;
+        var checkword = word_list[word_index].word;
+        if (newval === checkword) {
+            next_word();
+            // e.preventDefault();
+        }
+    });
+});
+
+
+function prev_word() {
+    --word_index;
+    if (word_index > -1) {
+        var next_word = word_list[word_index].word;
+        document.getElementById("word").innerHTML = next_word;
+        $("#typespace")[0].value = "";
+    } else {
+	++word_index;
+	var next_word = word_list[word_index].word;
+        document.getElementById("word").innerHTML = next_word;
+        $("#typespace")[0].value = "";
+ ;
+   
+    }
+}
+
+$(function() {
+    $("#typespace").val("");
+    $("#typespace").keyup(function(e) {
+        var typespace = $(e.currentTarget)[0];
+        var newval = typespace.value;
+        var checkword = word_list[word_index].word;
+        if (newval === checkword) {
+            next_word();
+            // e.preventDefault();
+        }
+    });
+});
+
+
+
+
+
+</script>
+<style>
+.init_show {
+}
+.init_hide {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+<center><h1 id="ready" class="init_show">2nd Grade Dolch Words - Alphabetical Order</h1></center>
+<font size=+5><p><br></br><center>
+<h1 id="word" class="init_hide reading typing">()</h1>
+    <p id="p_grade_boxes" class="init_show">
+</font>
+    </p>
+
+
+
+<!-- value is set to read; orig had read and write; hacky work around -->
+
+    <p id="p_word_count" class="init_show">
+      <select id="read_write" value="read" hidden=true>
+          <option value="read">Read</option>
+      </select>
+
+<!-- value is length of word list; hacky work-around -->
+
+
+      <select id="word_count" value="10" hidden=true>
+          <option value=10"> 40 </option>
+      </select>
+    </p>
+    <p><input id="typespace" class="init_hide typing" type="text"></input></p>
+
+
+    <button type="button" class="init_show" onclick='start_words()'>
+        START
+    </button>
+  <button type="button" class="init_hide reading typing"
+        onclick='prev_word()'>
+        PREVIOUS
+    </button>
+
+    <button type="button" class="init_hide reading typing"
+        onclick='next_word()'>
+        NEXT
+    </button>
+<p><br></br><font size-1>Modified source.  Original source found here: <a href="https://github.com/mdg/dolch-words">https://github.com/mdg/dolch-words</a>
+<br>[<b><a href="index.html">Return to Dolch Word List Selection</a>]</b>
+</body>
+</html>
